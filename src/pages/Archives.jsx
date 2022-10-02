@@ -18,34 +18,28 @@ class Archives extends Component {
     this.setState({ search: e.target.value });
   }
 
-  componentDidMount(prevProps, prevState) {
-    if (prevState.search !== this.state.search) {
-      if (this.state.search !== "") {
-        this.setState(() => {
-          getArchivedNotes().filter((note) =>
-            note.title.toLowerCase().includes(this.state.search.toLowerCase())
-          );
-        });
-      } else {
-        this.setState(() => {
-          getArchivedNotes();
-        });
-      }
+  componentDidMount() {
+    if (this.state.search !== "") {
+      this.setState({
+        notes: getArchivedNotes().filter((note) =>
+          note.title.toLowerCase().includes(this.state.search.toLowerCase())
+        ),
+      });
+    } else {
+      this.setState({ notes: getArchivedNotes() });
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.search !== this.state.search) {
       if (this.state.search !== "") {
-        this.setState(() => {
-          getArchivedNotes().filter((note) =>
+        this.setState({
+          notes: getArchivedNotes().filter((note) =>
             note.title.toLowerCase().includes(this.state.search.toLowerCase())
-          );
+          ),
         });
       } else {
-        this.setState(() => {
-          getArchivedNotes();
-        });
+        this.setState({ notes: getArchivedNotes() });
       }
     }
   }

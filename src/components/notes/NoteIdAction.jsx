@@ -12,30 +12,32 @@ const NoteIdAction = ({
 }) => {
   return (
     <Action page="detail-page">
-      <button
-        className="action"
-        type="button"
-        title="Edit"
-        onClick={() => handleEdit()}
-      >
-        <AiOutlineEdit />
-      </button>
-      <button
-        className="action"
-        type="button"
-        title={archived ? "Aktifkan" : "Arsipkan"}
-        onClick={() => handleArchive()}
-      >
-        {archived ? <BiArchiveOut /> : <BiArchiveIn />}
-      </button>
-      <button
-        className="action"
-        type="button"
-        title="Hapus"
-        onClick={() => handleDelete()}
-      >
-        <HiOutlineTrash />
-      </button>
+      <>
+        <button
+          className="action"
+          type="button"
+          title="Edit"
+          onClick={() => handleEdit()}
+        >
+          <AiOutlineEdit />
+        </button>
+        <button
+          className="action"
+          type="button"
+          title={archived ? "Aktifkan" : "Arsipkan"}
+          onClick={() => handleArchive()}
+        >
+          {archived ? <BiArchiveOut /> : <BiArchiveIn />}
+        </button>
+        <button
+          className="action"
+          type="button"
+          title="Hapus"
+          onClick={() => handleDelete()}
+        >
+          <HiOutlineTrash />
+        </button>
+      </>
     </Action>
   );
 };

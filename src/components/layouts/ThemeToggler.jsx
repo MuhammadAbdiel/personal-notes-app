@@ -7,7 +7,7 @@ class ThemeToggler extends Component {
     this.state = {
       theme: "dark",
     };
-    this.changeTheme = this.changeTheme.bind(this);
+    // this.changeTheme = this.changeTheme.bind(this);
   }
 
   changeTheme(value) {
@@ -17,12 +17,38 @@ class ThemeToggler extends Component {
     localStorage.setItem("theme", value);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    if (localStorage.theme) {
+      this.setState({ theme: localStorage.theme });
+    } else {
+      localStorage.setItem("theme", "dark");
+      this.setState({ theme: "dark" });
+    }
+  }
 
-  componentDidUpdate() {}
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.theme !== this.state.theme) {
+      if (localStorage.theme) {
+        this.setState({ theme: localStorage.theme });
+      } else {
+        localStorage.setItem("theme", "dark");
+        this.setState({ theme: "dark" });
+      }
+    }
+  }
 
   render() {
-    return <div>ThemeToggler</div>;
+    const { theme } = this.state;
+
+    return (
+      <button
+        type="button"
+        className="nav-icon"
+        onClick={() => this.changeTheme(theme === "dark" ? "light" : "dark")}
+      >
+        {theme === "dark" ? <BiSun /> : <BiMoon />}
+      </button>
+    );
   }
 }
 

@@ -18,34 +18,28 @@ class Home extends Component {
     this.setState({ search: e.target.value });
   }
 
-  componentDidMount(prevProps, prevState) {
-    if (prevState.search !== this.state.search) {
-      if (this.state.search !== "") {
-        this.setState(() => {
-          getActiveNotes().filter((note) =>
-            note.title.toLowerCase().includes(this.state.search.toLowerCase())
-          );
-        });
-      } else {
-        this.setState(() => {
-          getActiveNotes();
-        });
-      }
+  componentDidMount() {
+    if (this.state.search !== "") {
+      this.setState({
+        notes: getActiveNotes().filter((note) =>
+          note.title.toLowerCase().includes(this.state.search.toLowerCase())
+        ),
+      });
+    } else {
+      this.setState({ notes: getActiveNotes() });
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.search !== this.state.search) {
       if (this.state.search !== "") {
-        this.setState(() => {
-          getActiveNotes().filter((note) =>
+        this.setState({
+          notes: getActiveNotes().filter((note) =>
             note.title.toLowerCase().includes(this.state.search.toLowerCase())
-          );
+          ),
         });
       } else {
-        this.setState(() => {
-          getActiveNotes();
-        });
+        this.setState({ notes: getActiveNotes() });
       }
     }
   }

@@ -1,4 +1,4 @@
-import { HiPlus } from "react-icons/bi";
+import { HiPlus } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import Action from "../layouts/Action";
 

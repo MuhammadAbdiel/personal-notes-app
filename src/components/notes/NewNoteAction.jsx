@@ -8,22 +8,24 @@ const NewNoteAction = ({ handleSave }) => {
 
   return (
     <Action page="add-new-page">
-      <button
-        className="action"
-        type="button"
-        title="Tambah"
-        onClick={() => navigate("/")}
-      >
-        <HiX />
-      </button>
-      <button
-        className="action"
-        type="button"
-        title="Tambah"
-        onClick={() => handleSave()}
-      >
-        <HiCheck />
-      </button>
+      <>
+        <button
+          className="action"
+          type="button"
+          title="Tambah"
+          onClick={() => navigate("/")}
+        >
+          <HiX />
+        </button>
+        <button
+          className="action"
+          type="button"
+          title="Tambah"
+          onClick={() => handleSave()}
+        >
+          <HiCheck />
+        </button>
+      </>
     </Action>
   );
 };
