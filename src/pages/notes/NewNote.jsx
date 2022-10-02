@@ -8,7 +8,7 @@ class NewNoteClass extends Component {
     super(props);
     this.state = {
       title: "",
-      body: "",
+      body: "Type here",
     };
     this.handleSave = this.handleSave.bind(this);
     this.handleChange = this.handleChange.bind(this);

@@ -12,8 +12,11 @@ class NoteIdEditClass extends Component {
       id: "",
       title: "",
       archived: false,
-      body: "",
+      body: "Type here",
     };
+    this.handleSave = this.handleSave.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.onInputHandler = this.onInputHandler.bind(this);
   }
 
   handleChange = (e) => {
@@ -25,6 +28,7 @@ class NoteIdEditClass extends Component {
   };
 
   onInputHandler = (e) => {
+    e.preventDefault();
     this.setState(() => {
       return {
         body: e.target.innerHTML, // Ingat! innerHTML, bukan value.
@@ -70,7 +74,11 @@ class NoteIdEditClass extends Component {
       <section className="edit-page">
         {id !== "" ? (
           <>
-            <Link to="/" className="nav-icon" title="Kembali">
+            <Link
+              to={`/notes/${this.props.id}`}
+              className="nav-icon"
+              title="Kembali"
+            >
               <HiArrowLeft />
             </Link>
             <div className="edit-page__input">

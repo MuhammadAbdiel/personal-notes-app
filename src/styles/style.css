@@ -182,7 +182,7 @@ main {
   background-color: transparent;
   border: 0;
   color: var(--on-background);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 64px;
   font-weight: bold;
   padding: 8px 0;
@@ -199,7 +199,7 @@ main {
   background-color: transparent;
   border: 0;
   color: var(--on-background);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 24px;
   padding: 8px 0;
   min-height: 500px;
@@ -217,7 +217,7 @@ main {
 
 .search-bar input {
   margin: 16px 0;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   background-color: transparent;
   border: 1px solid var(--on-background);
   border-radius: 4px;
@@ -263,7 +263,7 @@ main {
 .input-login input,
 .input-register input {
   font-size: 18px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   margin-top: 8px;
   margin-bottom: 16px;
   display: block;
@@ -277,7 +277,7 @@ main {
 
 .input-login button,
 .input-register button {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: bold;
   font-size: 24px;
   width: 100%;
