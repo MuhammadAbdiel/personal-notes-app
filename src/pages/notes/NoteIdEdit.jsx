@@ -31,7 +31,7 @@ class NoteIdEditClass extends Component {
     e.preventDefault();
     this.setState(() => {
       return {
-        body: e.target.innerHTML, // Ingat! innerHTML, bukan value.
+        body: e.target.innerHTML,
       };
     });
   };

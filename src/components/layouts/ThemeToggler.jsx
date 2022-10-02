@@ -7,7 +7,6 @@ class ThemeToggler extends Component {
     this.state = {
       theme: "dark",
     };
-    // this.changeTheme = this.changeTheme.bind(this);
   }
 
   changeTheme(value) {

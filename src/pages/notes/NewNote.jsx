@@ -26,7 +26,7 @@ class NewNoteClass extends Component {
   onInputHandler = (e) => {
     this.setState(() => {
       return {
-        body: e.target.innerHTML, // Ingat! innerHTML, bukan value.
+        body: e.target.innerHTML,
       };
     });
   };
