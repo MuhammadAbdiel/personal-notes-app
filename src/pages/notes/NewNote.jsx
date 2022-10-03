@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import NewNoteAction from "../../components/notes/NewNoteAction";
 import { addNote } from "../../utils/local-data";
@@ -66,6 +67,10 @@ const NewNote = (props) => {
   const navigate = useNavigate();
 
   return <NewNoteClass {...props} navigate={navigate} />;
+};
+
+NewNote.propTypes = {
+  navigate: PropTypes.string,
 };
 
 export default NewNote;

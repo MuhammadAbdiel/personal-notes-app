@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { useSearchParams } from "react-router-dom";
 import HomeAction from "../components/home/HomeAction";
 import NoteListEmpty from "../components/notes/NoteListEmpty";
@@ -68,7 +69,7 @@ class HomeClass extends Component {
   }
 }
 
-const Home = () => {
+const Home = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("search");
 
@@ -77,8 +78,17 @@ const Home = () => {
   };
 
   return (
-    <HomeClass defaultKeyword={search} keywordChange={changeSearchParams} />
+    <HomeClass
+      {...props}
+      defaultKeyword={search}
+      keywordChange={changeSearchParams}
+    />
   );
+};
+
+Home.propTypes = {
+  defaultKeyword: PropTypes.string,
+  keywordChange: PropTypes.func,
 };
 
 export default Home;

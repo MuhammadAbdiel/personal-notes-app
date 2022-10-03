@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { HiArrowLeft } from "react-icons/hi";
 import { editNote, getNote } from "../../utils/local-data";
@@ -111,6 +112,11 @@ const NoteIdEdit = (props) => {
   const navigate = useNavigate();
 
   return <NoteIdEditClass {...props} navigate={navigate} id={id} />;
+};
+
+NoteIdEdit.propTypes = {
+  id: PropTypes.string,
+  navigate: PropTypes.string,
 };
 
 export default NoteIdEdit;

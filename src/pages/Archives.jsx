@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { useSearchParams } from "react-router-dom";
 import HomeAction from "../components/home/HomeAction";
 import NoteListEmpty from "../components/notes/NoteListEmpty";
@@ -68,7 +69,7 @@ class ArchivesClass extends Component {
   }
 }
 
-const Archives = () => {
+const Archives = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("search");
 
@@ -77,8 +78,17 @@ const Archives = () => {
   };
 
   return (
-    <ArchivesClass defaultKeyword={search} keywordChange={changeSearchParams} />
+    <ArchivesClass
+      {...props}
+      defaultKeyword={search}
+      keywordChange={changeSearchParams}
+    />
   );
+};
+
+Archives.propTypes = {
+  defaultKeyword: PropTypes.string,
+  keywordChange: PropTypes.func,
 };
 
 export default Archives;

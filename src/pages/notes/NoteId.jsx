@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import parser from "html-react-parser";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { HiArrowLeft } from "react-icons/hi";
@@ -93,6 +94,11 @@ const NoteId = (props) => {
   const navigate = useNavigate();
 
   return <NoteIdClass {...props} navigate={navigate} id={id} />;
+};
+
+NoteId.propTypes = {
+  id: PropTypes.string,
+  navigate: PropTypes.string,
 };
 
 export default NoteId;
