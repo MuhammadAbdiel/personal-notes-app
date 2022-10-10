@@ -35,7 +35,11 @@ class HomeClass extends Component {
         ),
       });
     } else {
-      this.setState({ notes: getActiveNotes() });
+      this.setState(() => {
+        return {
+          notes: getActiveNotes(),
+        };
+      });
     }
   }
 
@@ -48,7 +52,11 @@ class HomeClass extends Component {
           ),
         });
       } else {
-        this.setState({ notes: getActiveNotes() });
+        this.setState(() => {
+          return {
+            notes: getActiveNotes(),
+          };
+        });
       }
     }
   }

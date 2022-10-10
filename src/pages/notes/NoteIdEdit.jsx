@@ -48,7 +48,14 @@ class NoteIdEditClass extends Component {
     const showNote = getNote(this.props.id);
     if (showNote) {
       const { title, archived, body } = showNote;
-      this.setState({ id: this.props.id, title, archived, body });
+      this.setState(() => {
+        return {
+          id: this.props.id,
+          title,
+          archived,
+          body,
+        };
+      });
     }
   }
 
@@ -63,7 +70,14 @@ class NoteIdEditClass extends Component {
       const showNote = getNote(this.props.id);
       if (showNote) {
         const { title, archived, body } = showNote;
-        this.setState({ id: this.props.id, title, archived, body });
+        this.setState(() => {
+          return {
+            id: this.props.id,
+            title,
+            archived,
+            body,
+          };
+        });
       }
     }
   }

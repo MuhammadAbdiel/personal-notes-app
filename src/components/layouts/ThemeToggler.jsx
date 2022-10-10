@@ -10,7 +10,11 @@ class ThemeToggler extends Component {
   }
 
   changeTheme(value) {
-    this.setState({ theme: value });
+    this.setState(() => {
+      return {
+        theme: value,
+      };
+    });
     const root = window.document.documentElement;
     root.setAttribute("data-theme", value);
     localStorage.setItem("theme", value);
@@ -23,10 +27,18 @@ class ThemeToggler extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.theme !== this.state.theme) {
       if (localStorage.theme) {
-        this.setState({ theme: localStorage.theme });
+        this.setState(() => {
+          return {
+            theme: localStorage.theme,
+          };
+        });
       } else {
         localStorage.setItem("theme", "dark");
-        this.setState({ theme: "dark" });
+        this.setState(()=>{
+          return {
+            theme: "dark",
+          };
+        });
       }
     }
   }

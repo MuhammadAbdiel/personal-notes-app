@@ -35,7 +35,11 @@ class ArchivesClass extends Component {
         ),
       });
     } else {
-      this.setState({ notes: getArchivedNotes() });
+      this.setState(() => {
+        return {
+          notes: getArchivedNotes(),
+        };
+      });
     }
   }
 
@@ -48,7 +52,11 @@ class ArchivesClass extends Component {
           ),
         });
       } else {
-        this.setState({ notes: getArchivedNotes() });
+        this.setState(() => {
+          return {
+            notes: getArchivedNotes(),
+          };
+        });
       }
     }
   }

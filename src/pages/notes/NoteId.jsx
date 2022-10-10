@@ -46,7 +46,11 @@ class NoteIdClass extends Component {
   componentDidMount() {
     const showNote = getNote(this.props.id);
     if (showNote) {
-      this.setState({ note: showNote });
+      this.setState(() => {
+        return {
+          note: showNote,
+        };
+      });
     }
   }
 
@@ -54,7 +58,11 @@ class NoteIdClass extends Component {
     if (prevState.note !== this.state.note) {
       const showNote = getNote(this.props.id);
       if (showNote) {
-        this.setState({ note: showNote });
+        this.setState(() => {
+          return {
+            note: showNote,
+          };
+        });
       }
     }
   }
