@@ -1,10 +1,13 @@
 import PropTypes from "prop-types";
+import useLanguage from "../../hooks/useLanguage";
 
 const SearchBar = ({ search, keywordChange }) => {
+  const textNote = useLanguage("note");
+
   return (
     <input
       type="text"
-      placeholder="Search based on title"
+      placeholder={textNote.searchPlaceholder}
       value={search}
       onChange={(event) => keywordChange(event.target.value)}
     />

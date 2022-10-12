@@ -1,33 +1,89 @@
-import { Link, Navigate, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import NotFound from "./pages/NotFound";
-import Archive from "./pages/Archives";
-import NoteId from "./pages/notes/NoteId";
-import NewNote from "./pages/notes/NewNote";
-import NavMenu from "./components/layouts/NavMenu";
-import NoteIdEdit from "./pages/notes/NoteIdEdit";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useMemo, useState } from "react";
+import Routes from "./routes/routes";
+import LocaleContext from "./contexts/LocaleContext";
+import AuthContext from "./contexts/AuthContext";
+import { getUserLogged } from "./utils/network-data";
+import LoadingIndicator from "./components/layouts/LoadingIndicator";
+import Header from "./components/layouts/Header";
+import ThemeContext from "./contexts/ThemeContext";
+import useTheme from "./hooks/useTheme";
 
 const App = () => {
+  const [auth, setAuth] = useState(null);
+  const [locale, setLocale] = useState("id");
+  const [theme, changeTheme] = useTheme();
+  const [loading, setLoading] = useState(true);
+
+  const toggleLocale = () => {
+    localStorage.setItem("locale", locale === "id" ? "en" : "id");
+    setLocale((prevLocale) => (prevLocale === "id" ? "en" : "id"));
+  };
+
+  const localeContextValue = useMemo(() => {
+    return {
+      locale,
+      toggleLocale,
+    };
+  }, [locale]);
+
+  const authContextValue = useMemo(() => {
+    return {
+      auth,
+      setAuth,
+    };
+  }, [auth]);
+
+  const themeContextValue = useMemo(() => {
+    return {
+      theme,
+      changeTheme,
+    };
+  }, [auth]);
+
+  useEffect(() => {
+    // Mengambil data user yang sudah login
+    const fetchData = async () => {
+      const userLogged = await getUserLogged();
+      try {
+        if (!userLogged.error) {
+          setAuth(userLogged.data);
+        } else {
+          setAuth(null);
+        }
+        setLoading(false);
+      } catch (error) {
+        alert("Error");
+      }
+    };
+
+    fetchData();
+
+    // Inisialisasi Locale
+    if (localStorage.locale && ["id", "en"].includes(localStorage.locale)) {
+      setLocale(localStorage.locale);
+    }
+
+    // Inisialisasi Theme
+    if (localStorage.theme) {
+      changeTheme(localStorage.theme);
+    } else {
+      localStorage.setItem("theme", "dark");
+      changeTheme("dark");
+    }
+  }, [theme]);
+
   return (
-    <div className="app-container">
-      <header>
-        <h1>
-          <Link to="/">Notes App</Link>
-        </h1>
-        <NavMenu />
-      </header>
-      <main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/archives" element={<Archive />} />
-          <Route path="/notes" element={<Navigate to="/" replace />} />
-          <Route path="/notes/new" element={<NewNote />} />
-          <Route path="/notes/:id" element={<NoteId />} />
-          <Route path="/notes/:id/edit" element={<NoteIdEdit />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
-    </div>
+    <ThemeContext.Provider value={themeContextValue}>
+      <LocaleContext.Provider value={localeContextValue}>
+        <AuthContext.Provider value={authContextValue}>
+          <div className="app-container">
+            <Header />
+            <main>{loading ? <LoadingIndicator /> : <Routes />}</main>
+          </div>
+        </AuthContext.Provider>
+      </LocaleContext.Provider>
+    </ThemeContext.Provider>
   );
 };
 

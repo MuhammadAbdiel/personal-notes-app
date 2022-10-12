@@ -1,10 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import HomeAction from "../components/home/HomeAction";
+import LoadingIndicator from "../components/layouts/LoadingIndicator";
 import NoteListEmpty from "../components/notes/NoteListEmpty";
 import NotesList from "../components/notes/NotesList";
 import SearchBar from "../components/notes/SearchBar";
-import { getActiveNotes } from "../utils/local-data";
+import useLanguage from "../hooks/useLanguage";
+import { getActiveNotes } from "../utils/network-data";
 
 const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -18,33 +21,64 @@ const Home = () => {
     });
   };
 
-  const [notes, setNotes] = useState([]);
+  const [allNotes, setAllNotes] = useState([]); // all notes
+  const [notes, setNotes] = useState([]); // filtered notes
   const [search, setSearch] = useState(keyword || "");
+  const [initNotes, setInitNotes] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const textApp = useLanguage("app");
+  const textNote = useLanguage("note");
 
   const handleSearch = (search) => {
     setSearch(search);
     changeSearchParams(search);
   };
 
+  // Inisialisasi data dari API
+  const initData = () => {
+    const fetchData = async () => {
+      const activeNotes = await getActiveNotes();
+      try {
+        if (!activeNotes.error) {
+          setAllNotes(activeNotes.data);
+          setNotes(activeNotes.data);
+          setInitNotes(true);
+          setLoading(false);
+        }
+      } catch (e) {
+        alert(textApp.msg.error);
+      }
+    };
+
+    fetchData();
+  };
+
   useEffect(() => {
-    if (search !== "") {
-      setNotes(
-        getActiveNotes().filter((note) =>
+    if (!initNotes) {
+      initData();
+    }
+
+    // Jika sudah init data, filter dari memory local
+    if (initNotes) {
+      let tempDataNotes = [...allNotes];
+      if (search !== "") {
+        tempDataNotes = tempDataNotes.filter((note) =>
           note.title.toLowerCase().includes(search.toLowerCase())
-        )
-      );
-    } else {
-      setNotes(getActiveNotes());
+        );
+      }
+      setNotes(tempDataNotes);
     }
   }, [search]);
 
   return (
     <section className="homepage">
-      <h2>Active Notes</h2>
+      <h2>{textNote.header}</h2>
       <section className="search-bar">
         <SearchBar search={search} keywordChange={handleSearch} />
       </section>
-      {notes.length > 0 ? <NotesList notes={notes} /> : <NoteListEmpty />}
+      {notes.length > 0 && !loading ? <NotesList notes={notes} /> : ""}
+      {notes.length === 0 && !loading ? <NoteListEmpty /> : ""}
+      {loading ? <LoadingIndicator /> : ""}
       <HomeAction />
     </section>
   );
