@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import PropTypes from "prop-types";
 import { Link, useLocation } from "react-router-dom";
 import { BiArchive, BiHomeAlt } from "react-icons/bi";
 import AuthContext from "../../contexts/AuthContext";
@@ -45,6 +46,10 @@ const NavMenu = ({ name }) => {
       </nav>
     </>
   );
+};
+
+NavMenu.propTypes = {
+  name: PropTypes.string.isRequired,
 };
 
 export default NavMenu;
