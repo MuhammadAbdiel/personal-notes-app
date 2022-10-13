@@ -1,26 +1,12 @@
 import PropTypes from "prop-types";
 import { HiOutlineTrash } from "react-icons/hi";
 import { BiArchiveIn, BiArchiveOut } from "react-icons/bi";
-import { AiOutlineEdit } from "react-icons/ai";
 import Action from "../layouts/Action";
 
-const NoteIdAction = ({
-  archived,
-  handleEdit,
-  handleArchive,
-  handleDelete,
-}) => {
+const NoteIdAction = ({ archived, handleArchive, handleDelete }) => {
   return (
     <Action page="detail-page">
       <>
-        <button
-          className="action"
-          type="button"
-          title="Edit"
-          onClick={() => handleEdit()}
-        >
-          <AiOutlineEdit />
-        </button>
         <button
           className="action"
           type="button"
@@ -44,7 +30,6 @@ const NoteIdAction = ({
 
 NoteIdAction.propTypes = {
   archived: PropTypes.bool.isRequired,
-  handleEdit: PropTypes.func.isRequired,
   handleArchive: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
 };

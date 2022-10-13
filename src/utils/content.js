@@ -9,6 +9,7 @@ const appPage = {
       confirm: "Apakah anda yakin?",
       loading: "Memuat data...",
       error: "Ada kesalahan teknis. Coba lagi nanti!",
+      success: "Berhasil!",
     },
     add: "Tambah",
     cancel: "Batal",
@@ -28,6 +29,7 @@ const appPage = {
       confirm: "Are you sure?",
       loading: "Loading...",
       error: "Error. Try again later!",
+      success: "Success!",
     },
     add: "Add",
     cancel: "Cancel",
@@ -59,6 +61,7 @@ const registerPage = {
     footerLoginLink: "Login disini",
     msg: {
       registerSuccess: "Akun berhasil dibuat",
+      registerFailed: "Konfirmasi password tidak sesuai",
     },
   },
   en: {
@@ -67,6 +70,7 @@ const registerPage = {
     footerLoginLink: "Login here",
     msg: {
       registerSuccess: "User created successfully",
+      registerFailed: "Password confirmation is not match",
     },
   },
 };

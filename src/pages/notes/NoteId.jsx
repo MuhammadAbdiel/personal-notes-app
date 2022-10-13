@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-globals */
+import Swal from "sweetalert2";
 import React, { useState, useEffect } from "react";
 import parser from "html-react-parser";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -8,44 +10,121 @@ import {
   deleteNote,
   getNote,
   unarchiveNote,
-} from "../../utils/local-data";
+} from "../../utils/network-data";
 import NoteIdAction from "../../components/notes/NoteIdAction";
 import NotFoundMessage from "../../components/layouts/NotFoundMessage";
+import LoadingIndicator from "../../components/layouts/LoadingIndicator";
+import useLanguage from "../../hooks/useLanguage";
 
 const NoteId = () => {
+  const [loading, setLoading] = useState(true);
   const [note, setNote] = useState({});
   const { id } = useParams();
+  const textApp = useLanguage("app");
+  const textNote = useLanguage("noteId");
   const navigate = useNavigate();
 
-  const handleEdit = () => {
-    navigate(`/notes/${id}/edit`);
-  };
-
   const handleArchive = () => {
-    if (note.archived) {
-      unarchiveNote(id);
-      navigate("/archives");
-    } else {
-      archiveNote(id);
-      navigate("/");
-    }
+    Swal.fire({
+      title: textApp.msg.confirm,
+      text: "You will move this note!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, move it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let methods = null;
+        let navigateTo = "/";
+        if (note.archived) {
+          methods = unarchiveNote(id);
+          navigateTo = "/archives";
+        } else {
+          methods = archiveNote(id);
+        }
+
+        const fetchData = async () => {
+          const response = await methods;
+          try {
+            if (!response.error) {
+              navigate(navigateTo);
+            }
+          } catch (e) {
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: textApp.msg.error,
+            });
+          }
+        };
+
+        fetchData();
+      }
+    });
   };
 
   const handleDelete = () => {
-    deleteNote(id);
-    navigate("/");
+    Swal.fire({
+      title: textApp.msg.confirm,
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const fetchData = async () => {
+          const response = await deleteNote(id);
+          try {
+            if (!response.error) {
+              Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: textApp.msg.success,
+              });
+              navigate("/");
+            }
+          } catch (e) {
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: textApp.msg.error,
+            });
+          }
+        };
+
+        fetchData();
+      }
+    });
   };
 
   useEffect(() => {
-    const showNote = getNote(id);
-    if (showNote) {
-      setNote(showNote);
-    }
-  }, [id]);
+    const fetchData = async () => {
+      const response = await getNote(id);
+      try {
+        if (!response.error) {
+          setNote(response.data);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: textNote.notFound,
+          });
+        }
+        setLoading(false);
+      } catch (e) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: textApp.msg.error,
+        });
+      }
+    };
+
+    fetchData();
+  }, [id, textApp.msg.error, textNote.notFound]);
 
   return (
     <section className="detail-page">
-      {"id" in note ? (
+      {"id" in note && !loading ? (
         <>
           <Link to="/" className="nav-icon" title="Kembali">
             <HiArrowLeft />
@@ -55,16 +134,17 @@ const NoteId = () => {
             {showFormattedDate(note.createdAt)}
           </p>
           <div className="detail-page__body">{parser(note.body)}</div>
+          <NoteIdAction
+            archived={note.archived || false}
+            handleArchive={handleArchive}
+            handleDelete={handleDelete}
+          />
         </>
       ) : (
-        <NotFoundMessage />
+        ""
       )}
-      <NoteIdAction
-        archived={note.archived || false}
-        handleEdit={handleEdit}
-        handleArchive={handleArchive}
-        handleDelete={handleDelete}
-      />
+      {!("id" in note) && !loading ? <NotFoundMessage /> : ""}
+      {loading ? <LoadingIndicator /> : ""}
     </section>
   );
 };

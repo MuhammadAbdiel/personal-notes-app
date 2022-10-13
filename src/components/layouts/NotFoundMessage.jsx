@@ -1,8 +1,12 @@
+import useLanguage from "../../hooks/useLanguage";
+
 const NotFoundMessage = () => {
+  const text = useLanguage("app");
+
   return (
     <>
       <h2>404</h2>
-      <p>Page Not Found</p>
+      <p>{text.pageNotFound}</p>
     </>
   );
 };

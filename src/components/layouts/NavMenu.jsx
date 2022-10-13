@@ -6,7 +6,7 @@ import LangToggler from "./LangToggler";
 import LogoutButton from "./LogoutButton";
 import ThemeToggler from "./ThemeToggler";
 
-const NavMenu = () => {
+const NavMenu = ({ name }) => {
   const { auth } = useContext(AuthContext);
   const { pathName } = useLocation();
 
@@ -37,6 +37,9 @@ const NavMenu = () => {
           </li>
           <li>
             <LogoutButton />
+          </li>
+          <li>
+            <span className="nav-icon">{name}</span>
           </li>
         </ul>
       </nav>

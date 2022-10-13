@@ -1,24 +1,8 @@
-import React, { useState, useEffect } from "react";
 import { BiMoon, BiSun } from "react-icons/bi";
+import useTheme from "../../hooks/useTheme";
 
 const ThemeToggler = () => {
-  const [theme, setTheme] = useState("dark");
-
-  const changeTheme = (val) => {
-    setTheme(val);
-    const root = window.document.documentElement;
-    root.setAttribute("data-theme", val);
-    localStorage.setItem("theme", val);
-  };
-
-  useEffect(() => {
-    if (localStorage.theme) {
-      changeTheme(localStorage.theme);
-    } else {
-      localStorage.setItem("theme", "dark");
-      changeTheme("dark");
-    }
-  }, []);
+  const [theme, changeTheme] = useTheme();
 
   return (
     <button
@@ -26,7 +10,7 @@ const ThemeToggler = () => {
       className="nav-icon"
       onClick={() => changeTheme(theme === "dark" ? "light" : "dark")}
     >
-      {theme === "dark" ? <BiSun /> : <BiMoon />}
+      {localStorage.theme === "dark" ? <BiSun /> : <BiMoon />}
     </button>
   );
 };

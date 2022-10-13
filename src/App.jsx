@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import Swal from "sweetalert2";
 import React, { useEffect, useMemo, useState } from "react";
 import Routes from "./routes/routes";
 import LocaleContext from "./contexts/LocaleContext";
@@ -14,6 +15,7 @@ const App = () => {
   const [locale, setLocale] = useState("id");
   const [theme, changeTheme] = useTheme();
   const [loading, setLoading] = useState(true);
+  const [name, setName] = useState("");
 
   const toggleLocale = () => {
     localStorage.setItem("locale", locale === "id" ? "en" : "id");
@@ -39,7 +41,7 @@ const App = () => {
       theme,
       changeTheme,
     };
-  }, [auth]);
+  }, [theme]);
 
   useEffect(() => {
     // Mengambil data user yang sudah login
@@ -48,12 +50,17 @@ const App = () => {
       try {
         if (!userLogged.error) {
           setAuth(userLogged.data);
+          setName(userLogged.data.name);
         } else {
           setAuth(null);
         }
         setLoading(false);
       } catch (error) {
-        alert("Error");
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Something went wrong!",
+        });
       }
     };
 
@@ -71,14 +78,14 @@ const App = () => {
       localStorage.setItem("theme", "dark");
       changeTheme("dark");
     }
-  }, [theme]);
+  });
 
   return (
     <ThemeContext.Provider value={themeContextValue}>
       <LocaleContext.Provider value={localeContextValue}>
         <AuthContext.Provider value={authContextValue}>
           <div className="app-container">
-            <Header />
+            <Header name={name} />
             <main>{loading ? <LoadingIndicator /> : <Routes />}</main>
           </div>
         </AuthContext.Provider>

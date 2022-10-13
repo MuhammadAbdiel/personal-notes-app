@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router-dom";
 import useInput from "../hooks/useInput";
 import useLanguage from "../hooks/useLanguage";
@@ -19,7 +20,11 @@ const Register = () => {
 
     // Validasi Konfirmasi Password
     if (password !== confirmPassword) {
-      alert("Konfirmasi password tidak sesuai");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: textRegister.msg.registerFailed,
+      });
     }
 
     // Register
@@ -27,11 +32,19 @@ const Register = () => {
       const startRegister = await register({ name, email, password });
       try {
         if (!startRegister.error) {
-          alert(textRegister.msg.registerSuccess);
+          Swal.fire({
+            icon: "success",
+            title: "Success",
+            text: textRegister.msg.registerSuccess,
+          });
           navigate("/login");
         }
       } catch (e) {
-        alert(textApp.msg.error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: textApp.msg.error,
+        });
       }
     };
 

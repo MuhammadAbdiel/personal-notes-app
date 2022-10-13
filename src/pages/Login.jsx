@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../contexts/AuthContext";
@@ -32,7 +33,11 @@ const Login = () => {
             }
             navigate("/");
           } catch (e) {
-            alert(textApp.msg.error);
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: textApp.msg.error,
+            });
           }
         }
       } catch (error) {}

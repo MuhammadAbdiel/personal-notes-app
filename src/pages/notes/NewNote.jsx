@@ -1,7 +1,9 @@
+import Swal from "sweetalert2";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NewNoteAction from "../../components/notes/NewNoteAction";
-import { addNote } from "../../utils/local-data";
+import { addNote } from "../../utils/network-data";
+import useLanguage from "../../hooks/useLanguage";
 
 const NewNote = () => {
   const [form, setForm] = useState({
@@ -9,6 +11,8 @@ const NewNote = () => {
     body: "Type here",
   });
 
+  const textApp = useLanguage("app");
+  const textNote = useLanguage("newNote");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -31,8 +35,28 @@ const NewNote = () => {
 
   const handleSave = () => {
     const { title, body } = form;
-    addNote({ title, body });
-    navigate("/");
+
+    const fetchData = async () => {
+      const addData = await addNote({ title, body });
+      try {
+        if (!addData.error) {
+          Swal.fire({
+            icon: "success",
+            title: "Success",
+            text: textNote.msgSuccess,
+          });
+          navigate("/");
+        }
+      } catch (e) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: textApp.msg.error,
+        });
+      }
+    };
+
+    fetchData();
   };
 
   return (
@@ -40,13 +64,13 @@ const NewNote = () => {
       <div className="add-new-page__input">
         <input
           className="add-new-page__input__title"
-          placeholder="Judul"
+          placeholder={textNote.titlePlaceholder}
           value={form.title}
           onChange={handleChange}
         />
         <div
           className="add-new-page__input__body"
-          data-placeholder={form.body}
+          data-placeholder={textNote.bodyPlaceholder}
           contentEditable
           onInput={onInputHandler}
         />

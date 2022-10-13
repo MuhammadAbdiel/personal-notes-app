@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import Swal from "sweetalert2";
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import HomeAction from "../components/home/HomeAction";
@@ -46,7 +47,11 @@ const Home = () => {
           setLoading(false);
         }
       } catch (e) {
-        alert(textApp.msg.error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: textApp.msg.error,
+        });
       }
     };
 

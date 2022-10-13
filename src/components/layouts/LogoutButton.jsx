@@ -1,4 +1,5 @@
 /* eslint-disable no-restricted-globals */
+import Swal from "sweetalert2";
 import React, { useContext } from "react";
 import { MdLogout } from "react-icons/md";
 import AuthContext from "../../contexts/AuthContext";
@@ -9,10 +10,18 @@ const LogoutButton = () => {
   const text = useLanguage("app");
 
   const handleLogout = () => {
-    if (confirm(text.msg.confirm)) {
-      localStorage.removeItem("accessToken");
-      window.location = "/";
-    }
+    Swal.fire({
+      title: text.msg.confirm,
+      text: "You will be logged out!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, logout!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem("accessToken");
+        window.location = "/";
+      }
+    });
   };
 
   return (
